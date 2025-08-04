@@ -1,5 +1,4 @@
 .external-plugin-step:
-  image: curlimages/curl:latest
   script:
     - |
       echo "Collecting GitLab build info..."
