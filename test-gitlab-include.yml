@@ -5,7 +5,10 @@
       export BUILD_ID=$CI_PIPELINE_ID
       export JOB_NAME=$CI_JOB_NAME
       export PROJECT_PATH=$CI_PROJECT_PATH
+      
 
+      echo "BUILD_ID: ${BUILD_ID}"
+      echo "JOB_NAME: ${JOB_NAME}"
       echo "External api key: ${EXTERNAL_API_KEY}"
 
   artifacts:
