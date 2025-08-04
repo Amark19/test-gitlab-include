@@ -1,0 +1,41 @@
+.external-plugin-step:
+  image: curlimages/curl:latest
+  script:
+    - |
+      echo "Collecting GitLab build info..."
+      export BUILD_ID=$CI_PIPELINE_ID
+      export JOB_NAME=$CI_JOB_NAME
+      export PROJECT_PATH=$CI_PROJECT_PATH
+
+      echo "External api key: ${EXTERNAL_API_KEY}"
+
+      echo "Creating plugin-result.html..."
+
+      cat > plugin-result.html <<EOF
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Plugin Result</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+    th { background-color: #f9f9f9; }
+  </style>
+</head>
+<body>
+  <h1>GitLab Build Info</h1>
+  <table>
+    <tr><th>Key</th><th>Value</th></tr>
+    <tr><td>Build ID</td><td>$BUILD_ID</td></tr>
+    <tr><td>Job Name</td><td>$JOB_NAME</td></tr>
+    <tr><td>Project Path</td><td>$PROJECT_PATH</td></tr>
+  </table>
+</body>
+</html>
+EOF
+
+  artifacts:
+    paths:
+      - plugin-result.html
