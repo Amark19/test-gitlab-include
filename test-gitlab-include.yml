@@ -5,11 +5,23 @@
       export BUILD_ID=$CI_PIPELINE_ID
       export JOB_NAME=$CI_JOB_NAME
       export PROJECT_PATH=$CI_PROJECT_PATH
-      
 
       echo "BUILD_ID: ${BUILD_ID}"
       echo "JOB_NAME: ${JOB_NAME}"
       echo "External api key: ${EXTERNAL_API_KEY}"
+
+      # Generate random HTML content
+      echo "<!DOCTYPE html>" > plugin-result.html
+      echo "<html>" >> plugin-result.html
+      echo "<head><title>Random HTML Content</title></head>" >> plugin-result.html
+      echo "<body>" >> plugin-result.html
+      echo "<h1>Random HTML Content</h1>" >> plugin-result.html
+      echo "<p>BUILD_ID: ${BUILD_ID}</p>" >> plugin-result.html
+      echo "<p>JOB_NAME: ${JOB_NAME}</p>" >> plugin-result.html
+      echo "<p>PROJECT_PATH: ${PROJECT_PATH}</p>" >> plugin-result.html
+      echo "<p>Random Number: $((RANDOM))</p>" >> plugin-result.html
+      echo "</body>" >> plugin-result.html
+      echo "</html>" >> plugin-result.html
 
   artifacts:
     paths:
