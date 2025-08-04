@@ -23,6 +23,9 @@
       echo "</body>" >> plugin-result.html
       echo "</html>" >> plugin-result.html
 
+      # Verify the file exists
+      ls -l plugin-result.html
+
   artifacts:
     paths:
       - plugin-result.html
