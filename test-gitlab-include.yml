@@ -27,8 +27,6 @@
     ls -l plugin-report.html
   dependencies:
     - set_config
-  needs:
-    - set_config
   artifacts:
     paths:
       - plugin-report.html
