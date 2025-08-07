@@ -13,8 +13,8 @@
   image: alpine:latest
   script: |
     source config.env
-    echo "Installing curl & jq"
-    apk add --no-cache curl jq
+    echo "Installing bash, curl & jq"
+    apk add --no-cache bash curl jq
     bash <<'EOF'
       #!/bin/bash
       API_PATH="https://cad-report.vercel.app/api/v1/builds/buildReport"
