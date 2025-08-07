@@ -161,7 +161,7 @@
     
       RESPONSE=$(make_api_request "POLL")
       echo "Polling attempt $local_retry/$RETRY_COUNT"
-      echo "$RESPONSE"    
+      echo "$RESPONSE" | jq .
       status_code=$(echo "$RESPONSE" | jq -r '.status_code')
       echo "status_code : $status_code"
       if [ "$status_code" -ne 200 ]; then
@@ -216,4 +216,4 @@
     exit 0
   artifacts:
     paths:
-      - browserstack-testreport.html
+      - browserstack/testreport.html
