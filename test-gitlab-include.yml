@@ -13,6 +13,7 @@
   image: alpine:latest
   script: |
     source config.env
+    apk add --no-cache curl jq
     # Constants
     API_PATH="https://cad-report.vercel.app/api/v1/builds/buildReport"
     REPORT_STATUS_COMPLETED="COMPLETED"
@@ -164,8 +165,8 @@
     </style>
     </head>
     $rich_html_response
-    </html>" > browserstack/testreport.html
-      echo "Rich html report saved as browserstack/testreport.html. To view the report, open artifacts tab & click on testreport.html"
+    </html>" > browserstack-testreport.html
+      echo "Rich html report saved as browserstack-testreport.html. To view the report, open artifacts tab & click on testreport.html"
     
       # Generate plain text report
       if [[ -n "$plain_text_response" ]]; then
