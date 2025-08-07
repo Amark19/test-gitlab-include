@@ -25,7 +25,7 @@
     echo "<p>REGION: $REGION</p>" >> plugin-report.html
     echo "</body></html>" >> plugin-report.html
     ls -l plugin-report.html
-  dependencies:
+  needs:
     - set_config
   artifacts:
     paths:
