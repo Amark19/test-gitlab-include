@@ -1,0 +1,9 @@
+.set_config:
+  script:
+    - echo "API_KEY=supersecretkey" > config.env
+    - echo "ENVIRONMENT=production" >> config.env
+    - echo "REGION=us-west-1" >> config.env
+    - cat config.env
+  artifacts:
+    paths:
+      - config.env
