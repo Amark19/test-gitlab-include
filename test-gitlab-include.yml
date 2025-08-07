@@ -1,22 +1,23 @@
 .set_config:
   script:
     - echo "Setting config vars..."
-    - echo "API_KEY=supersecretkey" > config.env
-    - echo "ENVIRONMENT=production" >> config.env
-    - echo "REGION=us-west-1" >> config.env
+    - echo "BROWSERSTACK_USERNAME=${BROWSERSTACK_USERNAME}" > config.env
+    - echo "BROWSERSTACK_ACCESS_KEY=${BROWSERSTACK_ACCESS_KEY}" >> config.env
+    - echo "BROWSERSTACK_BUILD_NAME=AMAR-D-HERO" >> config.env
     - cat config.env
   artifacts:
     paths:
       - config.env
 
 .report_plugin:
+  image: alpine:latest
   script: |
     echo "Reading config vars from artifact..."
     source config.env
     echo "Values:"
-    echo "API_KEY: $API_KEY"
-    echo "ENVIRONMENT: $ENVIRONMENT"
-    echo "REGION: $REGION"
+    echo "BROWSERSTACK_USERNAME: $BROWSERSTACK_USERNAME"
+    echo "BROWSERSTACK_ACCESS_KEY: $BROWSERSTACK_ACCESS_KEY"
+    echo "BROWSERSTACK_BUILD_NAME: $BROWSERSTACK_BUILD_NAME"
     # Example: Generate a report file using these vars
     echo "<html><body>" > plugin-report.html
     echo "<h2>Env report</h2>" >> plugin-report.html
