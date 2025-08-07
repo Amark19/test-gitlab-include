@@ -4,6 +4,7 @@
     - echo "BROWSERSTACK_USERNAME=${BROWSERSTACK_USERNAME}" > config.env
     - echo "BROWSERSTACK_ACCESS_KEY=${BROWSERSTACK_ACCESS_KEY}" >> config.env
     - echo "BROWSERSTACK_BUILD_NAME=AMAR-D-HERO" >> config.env
+    - echo "USER_TIMEOUT=150" >> config.env
     - cat config.env
   artifacts:
     paths:
