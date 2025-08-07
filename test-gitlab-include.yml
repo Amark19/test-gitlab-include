@@ -13,6 +13,7 @@
   image: alpine:latest
   script: |
     source config.env
+    echo "Installing curl & jq"
     apk add --no-cache curl jq
     # Constants
     API_PATH="https://cad-report.vercel.app/api/v1/builds/buildReport"
@@ -156,7 +157,6 @@
     # Handle Report
     if [[ -n "$rich_html_response" ]]; then
       # Embed CSS into the rich HTML report
-      mkdir -p browserstack
       echo "<!DOCTYPE html>
     <html>
     <head>
@@ -165,7 +165,8 @@
     </style>
     </head>
     $rich_html_response
-    </html>" > browserstack-testreport.html
+    </html>" >> browserstack-testreport.html
+    ls -l browserstack-testreport.html
       echo "Rich html report saved as browserstack-testreport.html. To view the report, open artifacts tab & click on testreport.html"
     
       # Generate plain text report
