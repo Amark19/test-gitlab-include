@@ -1,31 +1,32 @@
-.external-plugin-step:
+.set_config:
   script:
-    - |
-      echo "Collecting GitLab build info..."
-      export BUILD_ID=$CI_PIPELINE_ID
-      export JOB_NAME=$CI_JOB_NAME
-      export PROJECT_PATH=$CI_PROJECT_PATH
-
-      echo "BUILD_ID: ${BUILD_ID}"
-      echo "JOB_NAME: ${JOB_NAME}"
-      echo "External api key: ${EXTERNAL_API_KEY}"
-
-      # Generate random HTML content
-      echo "<!DOCTYPE html>" > plugin-result.html
-      echo "<html>" >> plugin-result.html
-      echo "<head><title>Random HTML Content</title></head>" >> plugin-result.html
-      echo "<body>" >> plugin-result.html
-      echo "<h1>Random HTML Content</h1>" >> plugin-result.html
-      echo "<p>BUILD_ID: ${BUILD_ID}</p>" >> plugin-result.html
-      echo "<p>JOB_NAME: ${JOB_NAME}</p>" >> plugin-result.html
-      echo "<p>PROJECT_PATH: ${PROJECT_PATH}</p>" >> plugin-result.html
-      echo "<p>Random Number: $((RANDOM))</p>" >> plugin-result.html
-      echo "</body>" >> plugin-result.html
-      echo "</html>" >> plugin-result.html
-
-      # Verify the file exists
-      ls -l plugin-result.html
-
+    - echo "Setting config vars..."
+    - echo "API_KEY=supersecretkey" > config.env
+    - echo "ENVIRONMENT=production" >> config.env
+    - echo "REGION=us-west-1" >> config.env
+    - cat config.env
   artifacts:
     paths:
-      - plugin-result.html
+      - config.env
+
+.report_plugin:
+  script:
+    - echo "Reading config vars from artifact..."
+    - source config.env
+    - echo "Values:"
+    - echo "API_KEY: $API_KEY"
+    - echo "ENVIRONMENT: $ENVIRONMENT"
+    - echo "REGION: $REGION"
+    # Example: Generate a report file using these vars
+    - echo "<html><body>" > plugin-report.html
+    - echo "<h2>Env report</h2>" >> plugin-report.html
+    - echo "<p>API_KEY: $API_KEY</p>" >> plugin-report.html
+    - echo "<p>ENVIRONMENT: $ENVIRONMENT</p>" >> plugin-report.html
+    - echo "<p>REGION: $REGION</p>" >> plugin-report.html
+    - echo "</body></html>" >> plugin-report.html
+    - ls -l plugin-report.html
+  dependencies:
+    - set_config
+  artifacts:
+    paths:
+      - plugin-report.html
