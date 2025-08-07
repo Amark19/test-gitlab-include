@@ -10,21 +10,21 @@
       - config.env
 
 .report_plugin:
-  script:
-    - echo "Reading config vars from artifact..."
-    - source config.env
-    - echo "Values:"
-    - echo "API_KEY: $API_KEY"
-    - echo "ENVIRONMENT: $ENVIRONMENT"
-    - echo "REGION: $REGION"
+  script: |
+    echo "Reading config vars from artifact..."
+    source config.env
+    echo "Values:"
+    echo "API_KEY: $API_KEY"
+    echo "ENVIRONMENT: $ENVIRONMENT"
+    echo "REGION: $REGION"
     # Example: Generate a report file using these vars
-    - echo "<html><body>" > plugin-report.html
-    - echo "<h2>Env report</h2>" >> plugin-report.html
-    - echo "<p>API_KEY: $API_KEY</p>" >> plugin-report.html
-    - echo "<p>ENVIRONMENT: $ENVIRONMENT</p>" >> plugin-report.html
-    - echo "<p>REGION: $REGION</p>" >> plugin-report.html
-    - echo "</body></html>" >> plugin-report.html
-    - ls -l plugin-report.html
+    echo "<html><body>" > plugin-report.html
+    echo "<h2>Env report</h2>" >> plugin-report.html
+    echo "<p>API_KEY: $API_KEY</p>" >> plugin-report.html
+    echo "<p>ENVIRONMENT: $ENVIRONMENT</p>" >> plugin-report.html
+    echo "<p>REGION: $REGION</p>" >> plugin-report.html
+    echo "</body></html>" >> plugin-report.html
+    ls -l plugin-report.html
   dependencies:
     - set_config
   artifacts:
