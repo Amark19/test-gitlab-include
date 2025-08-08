@@ -1,14 +1,28 @@
 .set_config:
-  script:
-    - echo "Setting config vars..."
-    - echo "BROWSERSTACK_USERNAME=${BROWSERSTACK_USERNAME}" > config.env
-    - echo "BROWSERSTACK_ACCESS_KEY=${BROWSERSTACK_ACCESS_KEY}" >> config.env
-    - echo "BROWSERSTACK_BUILD_NAME=AMAR-D-HERO" >> config.env
-    - echo "USER_TIMEOUT=150" >> config.env
-    - cat config.env
-  artifacts:
-    paths:
-      - config.env
+  image: alpine:latest
+  script: |
+      echo "Setting config vars..."
+
+      # Validate required variables
+      if [ -z "$BROWSERSTACK_USERNAME" ]; then
+        echo "Error: BROWSERSTACK_USERNAME is not set!"
+        exit 1
+      fi
+
+      if [ -z "$BROWSERSTACK_ACCESS_KEY" ]; then
+        echo "Error: BROWSERSTACK_ACCESS_KEY is not set!"
+        exit 1
+      fi
+
+      # Construct dynamic build name
+      export BROWSERSTACK_BUILD_NAME="gitlab-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}"
+
+      # Write to config.env
+      echo "BROWSERSTACK_USERNAME=${BROWSERSTACK_USERNAME}" > config.env
+      echo "BROWSERSTACK_ACCESS_KEY=${BROWSERSTACK_ACCESS_KEY}" >> config.env
+      echo "BROWSERSTACK_BUILD_NAME=${BROWSERSTACK_BUILD_NAME}" >> config.env
+
+      cat config.env
 
 .report_plugin:
   image: alpine:latest
@@ -18,7 +32,7 @@
     bash <<'EOF'
       #!/bin/bash
       source config.env
-      API_PATH="https://cad-report.vercel.app/api/v1/builds/buildReport"
+      API_PATH="https://api-observability.browserstack.com/ext/v1/builds/buildReport"
       REPORT_STATUS_COMPLETED="COMPLETED"
       REPORT_STATUS_NOT_AVAILABLE="NOT_AVAILABLE"
       REPORT_STATUS_TEST_AVAILABLE="TEST_AVAILABLE"
@@ -38,9 +52,14 @@
         echo "Error: BROWSERSTACK_BUILD_NAME is not set."
         exit 0
       fi
+
+      if [[ -z "$REPORT_TIMEOUT" ]]; then
+        $REPORT_TIMEOUT=130
+        exit 0
+      fi
       
-      if [[ "$USER_TIMEOUT" -lt 20 || "$USER_TIMEOUT" -gt 600 ]]; then
-        echo "Error: USER_TIMEOUT must be between 20 and 600 seconds."
+      if [[ "$REPORT_TIMEOUT" -lt 20 || "$REPORT_TIMEOUT" -gt 600 ]]; then
+        echo "Error: REPORT_TIMEOUT must be between 20 and 600 seconds."
         exit 1
       fi
       
@@ -65,7 +84,7 @@
                 \"requestingCi\": \"$REQUESTING_CI\",
                 \"reportFormat\": $REPORT_FORMAT,
                 \"requestType\": \"$request_type\",
-                \"userTimeout\": \"${USER_TIMEOUT}\"
+                \"userTimeout\": \"${REPORT_TIMEOUT}\"
               }")
         
         # Extract the HTTP status code from the response
@@ -134,7 +153,7 @@
       ELAPSED_TIME=0
       
       while [[ $local_retry -lt $RETRY_COUNT && $REPORT_STATUS == "$REPORT_STATUS_IN_PROGRESS" ]]; do
-          if [[ -n "$USER_TIMEOUT" && "$ELAPSED_TIME" -ge "$USER_TIMEOUT" ]]; then
+          if [[ -n "$REPORT_TIMEOUT" && "$ELAPSED_TIME" -ge "$REPORT_TIMEOUT" ]]; then
               echo "User timeout reached. Making final API request..."
               RESPONSE=$(make_api_request "LAST")
               check_report_status "$RESPONSE" && break
