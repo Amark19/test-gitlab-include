@@ -57,8 +57,7 @@
       fi
 
       if [[ -z "$REPORT_TIMEOUT" ]]; then
-        $REPORT_TIMEOUT=130
-        exit 0
+        REPORT_TIMEOUT=130
       fi
       
       if [[ "$REPORT_TIMEOUT" -lt 20 || "$REPORT_TIMEOUT" -gt 600 ]]; then
