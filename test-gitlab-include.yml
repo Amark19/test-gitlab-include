@@ -146,7 +146,6 @@
       
           RESPONSE=$(make_api_request "POLL")
           echo "Polling attempt $local_retry/$RETRY_COUNT"
-          echo "$RESPONSE"
           # Stop polling if API response is non-200
           status_code=$(echo "$RESPONSE" | jq -r '.status_code')
           if [[ $status_code -ne 200 ]]; then
