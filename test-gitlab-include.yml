@@ -15,7 +15,7 @@
       fi
 
       # Construct dynamic build name
-      export BROWSERSTACK_BUILD_NAME="gitlab-${CI_PROJECT_NAME}-${CI_PIPELINE_ID}"
+      export BROWSERSTACK_BUILD_NAME="gitlab-ci-${CI_PROJECT_NAME}-${CI_PIPELINE_IID}"
 
       # Write to config.env
       echo "BROWSERSTACK_USERNAME=${BROWSERSTACK_USERNAME}" > config.env
@@ -37,7 +37,7 @@
       REPORT_STATUS_NOT_AVAILABLE="NOT_AVAILABLE"
       REPORT_STATUS_TEST_AVAILABLE="TEST_AVAILABLE"
       REPORT_STATUS_IN_PROGRESS="IN_PROGRESS"
-      REQUESTING_CI="circle-ci"
+      REQUESTING_CI="gitlab-ci"
       REPORT_FORMAT='["plainText", "richHtml"]'
       
       # Error scenario mappings
