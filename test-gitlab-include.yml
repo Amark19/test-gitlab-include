@@ -181,7 +181,7 @@
           
           sleep "$POLLING_DURATION"
       done
-      
+      echo "$rich_html_response"
       # Handle Report
       if [[ -n "$rich_html_response" ]]; then
         # Embed CSS into the rich HTML report
