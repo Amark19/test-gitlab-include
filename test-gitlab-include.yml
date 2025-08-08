@@ -23,6 +23,9 @@
       echo "BROWSERSTACK_BUILD_NAME=${BROWSERSTACK_BUILD_NAME}" >> config.env
 
       cat config.env
+  artifacts:
+    paths:
+      - config.env
 
 .report_plugin:
   image: alpine:latest
