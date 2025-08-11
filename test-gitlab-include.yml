@@ -139,6 +139,7 @@
           fi
           return 2
       }
+      echo "Build Name: $BROWSERSTACK_BUILD_NAME will be used to fetch the report."
       echo "Making initial API request to Browserstack Test Report API..."
       
       # Initial API Request
