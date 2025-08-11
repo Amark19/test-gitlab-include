@@ -21,7 +21,6 @@
       echo "BROWSERSTACK_USERNAME=${BROWSERSTACK_USERNAME}" > config.env
       echo "BROWSERSTACK_ACCESS_KEY=${BROWSERSTACK_ACCESS_KEY}" >> config.env
       echo "BROWSERSTACK_BUILD_NAME=${BROWSERSTACK_BUILD_NAME}" >> config.env
-      ls -l config.env
       cat config.env
   artifacts:
     paths:
@@ -35,7 +34,7 @@
     bash <<'EOF'
       #!/bin/bash
       source config.env
-      API_PATH="https://api-observability.browserstack.com/ext/v1/builds/buildReport"
+      API_PATH="https://cad-report.vercel.app/api/v1/builds/buildReport"
       REPORT_STATUS_COMPLETED="COMPLETED"
       REPORT_STATUS_NOT_AVAILABLE="NOT_AVAILABLE"
       REPORT_STATUS_TEST_AVAILABLE="TEST_AVAILABLE"
